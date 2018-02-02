@@ -1,3 +1,8 @@
+.container {
+    max-width: 976px;
+    flex-wrap: wrap;
+}
+
 .row {
     display: flex;
 }
