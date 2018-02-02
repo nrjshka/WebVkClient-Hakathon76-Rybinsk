@@ -24,3 +24,18 @@
 .col-11 { flex-basis: 91.6666%; }
 .col-12 { flex-basis: 100%; }
 
+/*  sm  */
+@media (min-width: 576px) {
+}
+
+/*  md  */
+@media (min-width: 768px) {
+}
+
+/*  lg  */
+@media (min-width: 991px) {
+}
+
+/*  xl  */
+@media (min-width: 1200px) {
+}
