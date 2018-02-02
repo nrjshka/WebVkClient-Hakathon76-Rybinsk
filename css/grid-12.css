@@ -1,0 +1,21 @@
+.row {
+    display: flex;
+}
+
+.col-1, .col-2, .col-3, .col-4, .col-5, .col-6, .col-7, .col-8, .col-9, .col-10, .col-11, .col-12 {
+    box-sizing: border-box;
+}
+
+.col-1 { flex-basis: 8.3333%; }
+.col-2 { flex-basis: 16.6667%; }
+.col-3 { flex-basis: 24.9999%; }
+.col-4 { flex-basis: 33.3333%; }
+.col-5 { flex-basis: 41.6667%; }
+.col-6 { flex-basis: 49.9999%; }
+.col-7 { flex-basis: 58.3333%; }
+.col-8 { flex-basis: 66.6666%; }
+.col-9 { flex-basis: 74.9999%; }
+.col-10 { flex-basis: 83.3333%; }
+.col-11 { flex-basis: 91.6666%; }
+.col-12 { flex-basis: 100%; }
+
