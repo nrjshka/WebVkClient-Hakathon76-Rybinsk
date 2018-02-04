@@ -1,13 +1,14 @@
 <!DOCTYPE html>
+{% load staticfiles %}
 <html>
 <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>VK Messanger</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" type="text/css" media="screen" href="css/normalize.css" />
-    <link rel="stylesheet" type="text/css" media="screen" href="css/main.css" />
-	<link rel="shortcut icon" type="image/x-icon" href="media/index.png">
+    <link rel="stylesheet" type="text/css" media="screen" href="{% static 'css/normalize.css' %}" />
+    <link rel="stylesheet" type="text/css" media="screen" href="{% static 'css/main.css' %}" />
+	<link rel="shortcut icon" type="image/x-icon" href="{% static 'media/media.png' %}">
 </head>
 <body>
     <div id="root"></div>
@@ -17,6 +18,6 @@
         apiId: 6210781
       });
     </script>
-    <script src="js/main.js"></script>
+    <script src="{% static 'js/main.js' %}"></script>
 </body>
 </html>
