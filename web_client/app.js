@@ -1,7 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';   
+import App from './Pages';
 
 ReactDOM.render(
-    <div>Rybinsk Hakathon 2018.</div>,
+    <App />,
     document.getElementById('root')
   );
