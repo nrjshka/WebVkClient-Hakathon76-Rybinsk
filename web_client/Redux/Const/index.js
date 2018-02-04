@@ -1,0 +1,1 @@
+export const VK_LOGIN = 'VK_LOGIN';

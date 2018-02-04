@@ -1,19 +1,40 @@
 import React, { Component } from 'react';
-import { Router, Route, Switch } from 'react-router';
-import { IndexRoute, BrowserRouter} from 'react-router-dom';
+import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
 
-
+import {vkLogin} from '../../Redux/Actions/vk';
 
 class Index extends Component {
+	enterVk(){
+		this.props.vkLogin();
+	}
+
 	render(){
-		console.log('Index');
 		return(
-			<form className="col-xs-12">
-				<img src="../media/index.png"/>
-				<div className="form-title">VK Messanger</div>
-			</form>
+			<div className="index-main">
+				<form className="index-form col-xs-12 row">
+					<div className="col-12">
+						<img className="index-logo" src="static/media/logo/index.png"/>
+						<div className="index-title">VK Messanger</div>
+						<input className="index-input" type="button" onClick={ () => {this.enterVk()} } value="Зайти с помощью VK" />
+					</div>
+				</form>
+				<footer className="index-footer">
+					Rybinsk Hakathon, 2018
+				</footer>
+			</div>
 		);
 	}
 }
 
-export default Index
+const mapStateToProps = (state) => {
+	return state;
+}
+
+const matchDispatchToProps = (dispatch) => {
+	return {
+		vkLogin: bindActionCreators(vkLogin, dispatch), 
+	};
+}
+
+export default connect(mapStateToProps, matchDispatchToProps)(Index);
