@@ -5,10 +5,6 @@ import {bindActionCreators} from 'redux';
 import {vkLogin} from '../../Redux/Actions/vk';
 
 class Index extends Component {
-	enterVk(){
-		this.props.vkLogin();
-	}
-
 	render(){
 		return(
 			<div className="index-main">
@@ -16,7 +12,7 @@ class Index extends Component {
 					<div className="col-12">
 						<img className="index-logo" src="static/media/logo/index.png"/>
 						<div className="index-title">VK Messanger</div>
-						<input className="index-input" type="button" onClick={ () => {this.enterVk()} } value="Зайти с помощью VK" />
+						<input className="index-input" type="button" onClick={ () => { this.props.vkLogin() } } value="Зайти с помощью VK" />
 					</div>
 				</form>
 				<footer className="index-footer">
