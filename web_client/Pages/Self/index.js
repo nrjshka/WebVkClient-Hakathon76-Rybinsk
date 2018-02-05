@@ -3,6 +3,8 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 
 import UserHeader from '../UserHeader/index.js';
+import UserInfo from '../UserInfo/index.js';
+import UserWall from '../UserWall/index.js';
 import Preloader from '../Preloader/index.js';
 
 import {vkGetUserInfo} from '../../Redux/Actions/vk';
@@ -40,6 +42,8 @@ class Self extends Component {
             return(
                 <div className="self-main">
                     <UserHeader user_data={this.state.user_info} />
+                    <UserInfo user_data={this.state.user_info} />
+                    <UserWall user_data={this.state.user_info} />
                 </div>
             );
         } else {

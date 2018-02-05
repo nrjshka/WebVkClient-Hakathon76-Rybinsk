@@ -7,9 +7,9 @@ class Footer extends Component {
 		return(
             <footer className="page-footer col-12">
                 <div className="row container col-12">
-                    <div className="col-3">
+                    <Link to="" className="col-3">
                         <img src="static/media/icons/home.png" />
-                    </div>
+                    </Link>
                     <div className="col-3">
                         <img src="static/media/icons/friends.png" />
                     </div>

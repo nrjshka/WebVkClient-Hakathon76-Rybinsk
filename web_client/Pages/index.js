@@ -27,16 +27,16 @@ class App extends Component {
 		} else {
 			// Если мы залогинились
 			return(
+			<BrowserRouter>
 				<div className="main">
 					<div className="content container row">
-						<BrowserRouter>
-							<Switch>
-								<Route exact path="/" component={Self} />
-							</Switch>
-						</BrowserRouter>
+						<Switch>
+							<Route exact path="/" component={Self} />
+						</Switch>
 					</div>
-					<Footer />
+				<Footer />
 				</div>
+			</BrowserRouter>
 			);
 		}
 	}

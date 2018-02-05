@@ -3070,7 +3070,7 @@ module.exports = function hoistNonReactStatics(targetComponent, sourceComponent,
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__HashRouter__ = __webpack_require__(82);
 /* unused harmony reexport HashRouter */
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Link__ = __webpack_require__(44);
-/* unused harmony reexport Link */
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return __WEBPACK_IMPORTED_MODULE_2__Link__["a"]; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__MemoryRouter__ = __webpack_require__(84);
 /* unused harmony reexport MemoryRouter */
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__NavLink__ = __webpack_require__(85);
@@ -4172,16 +4172,25 @@ const vkGetUserInfo = id => {
     return dispatch => {
         let outputData = {};
         VK.Api.call('users.get', { user_ids: id,
-            fields: 'photo_max, first_name, last_name, bdate, city' }, data => {
+            fields: 'photo_max, first_name, last_name, bdate, city, counters'
+        }, data => {
             Object.assign(outputData, data['response'][0]);
             // Запрашиваем город человека
             VK.Api.call('database.getCitiesById', { city_ids: outputData['city'] }, data => {
-                console.log('city', data.response);
                 if (data.response.length) outputData.city = data.response[0].name;else outputData.city = null;
 
-                dispatch({
-                    type: __WEBPACK_IMPORTED_MODULE_0__Const__["b" /* VK_USER_INFO */],
-                    payload: { user_info: outputData }
+                // Запрашиваем стену человека
+                VK.Api.call('wall.get', {
+                    owner_id: id,
+                    count: 100
+                }, data => {
+                    outputData.wall = data.response;
+                    console.log('outputdata', outputData);
+
+                    dispatch({
+                        type: __WEBPACK_IMPORTED_MODULE_0__Const__["b" /* VK_USER_INFO */],
+                        payload: { user_info: outputData }
+                    });
                 });
             });
         });
@@ -4215,9 +4224,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Pages__ = __webpack_require__(69);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_react_redux__ = __webpack_require__(6);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_redux__ = __webpack_require__(7);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_redux_thunk__ = __webpack_require__(120);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_redux_thunk__ = __webpack_require__(122);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_redux_thunk___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5_redux_thunk__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__Redux__ = __webpack_require__(121);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__Redux__ = __webpack_require__(123);
 
 
 
@@ -10857,22 +10866,22 @@ class App extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 		} else {
 			// Если мы залогинились
 			return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-				'div',
-				{ className: 'main' },
+				__WEBPACK_IMPORTED_MODULE_2_react_router_dom__["a" /* BrowserRouter */],
+				null,
 				__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
 					'div',
-					{ className: 'content container row' },
+					{ className: 'main' },
 					__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-						__WEBPACK_IMPORTED_MODULE_2_react_router_dom__["a" /* BrowserRouter */],
-						null,
+						'div',
+						{ className: 'content container row' },
 						__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
 							__WEBPACK_IMPORTED_MODULE_1_react_router__["b" /* Switch */],
 							null,
 							__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1_react_router__["a" /* Route */], { exact: true, path: '/', component: __WEBPACK_IMPORTED_MODULE_7__Self_index_js__["a" /* default */] })
 						)
-					)
-				),
-				__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_6__Footer_index_js__["a" /* default */], null)
+					),
+					__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_6__Footer_index_js__["a" /* default */], null)
+				)
 			);
 		}
 	}
@@ -15232,8 +15241,8 @@ class Footer extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
                 'div',
                 { className: 'row container col-12' },
                 __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                    'div',
-                    { className: 'col-3' },
+                    __WEBPACK_IMPORTED_MODULE_2_react_router_dom__["b" /* Link */],
+                    { to: '', className: 'col-3' },
                     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('img', { src: 'static/media/icons/home.png' })
                 ),
                 __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
@@ -15267,8 +15276,12 @@ class Footer extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react_redux__ = __webpack_require__(6);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_redux__ = __webpack_require__(7);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__UserHeader_index_js__ = __webpack_require__(118);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__Preloader_index_js__ = __webpack_require__(119);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__Redux_Actions_vk__ = __webpack_require__(55);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__UserInfo_index_js__ = __webpack_require__(119);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__UserWall_index_js__ = __webpack_require__(120);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__Preloader_index_js__ = __webpack_require__(121);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__Redux_Actions_vk__ = __webpack_require__(55);
+
+
 
 
 
@@ -15311,10 +15324,12 @@ class Self extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
             return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                 'div',
                 { className: 'self-main' },
-                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_3__UserHeader_index_js__["a" /* default */], { user_data: this.state.user_info })
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_3__UserHeader_index_js__["a" /* default */], { user_data: this.state.user_info }),
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_4__UserInfo_index_js__["a" /* default */], { user_data: this.state.user_info }),
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_5__UserWall_index_js__["a" /* default */], { user_data: this.state.user_info })
             );
         } else {
-            return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_4__Preloader_index_js__["a" /* default */], null);
+            return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_6__Preloader_index_js__["a" /* default */], null);
         }
     }
 }
@@ -15325,7 +15340,7 @@ const mapStateToProps = state => {
 
 const matchDispatchToProps = dispatch => {
     return {
-        vkGetUserInfo: Object(__WEBPACK_IMPORTED_MODULE_2_redux__["b" /* bindActionCreators */])(__WEBPACK_IMPORTED_MODULE_5__Redux_Actions_vk__["a" /* vkGetUserInfo */], dispatch)
+        vkGetUserInfo: Object(__WEBPACK_IMPORTED_MODULE_2_redux__["b" /* bindActionCreators */])(__WEBPACK_IMPORTED_MODULE_7__Redux_Actions_vk__["a" /* vkGetUserInfo */], dispatch)
     };
 };
 
@@ -15348,18 +15363,56 @@ class UserHeader extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 
         return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
             'div',
-            { className: 'user-header row' },
+            { className: 'user-container user-header row' },
             __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                 'div',
-                { className: 'col-xs-6 col-sm-4 col-md-3 col-lg-2' },
+                { className: 'col-xs-4 col-sm-2 col-md-2 col-lg-2' },
                 __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('img', { className: 'user-header-foto', src: user_data.photo_max })
             ),
             __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                 'div',
-                { className: 'col-xs-6 col-sm-8 col-md-9 col-lg-10' },
-                user_data.first_name,
-                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('br', null),
-                user_data.last_name
+                { className: 'col-xs-6 col-sm-8 col-md-9 col-lg-10 row user-info' },
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                    'div',
+                    { className: 'user-article col-12 user-name' },
+                    user_data.first_name,
+                    ' ',
+                    user_data.last_name
+                ),
+
+                // Вызываем вывод даты рождения
+                (() => {
+                    if (user_data.bdate) {
+                        return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                            'div',
+                            { className: 'user-article col-12' },
+                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                'span',
+                                { className: 'user-article-param' },
+                                '\u0414\u0430\u0442\u0430 \u0440\u043E\u0436\u0434\u0435\u043D\u0438\u044F: '
+                            ),
+                            user_data.bdate
+                        );
+                    }
+                })(),
+
+                // Вызываем вывод города
+                (() => {
+                    console.log(user_data);
+                    if (user_data.city) {
+                        return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                            'div',
+                            { className: 'user-article col-12' },
+                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                'span',
+                                { className: 'user-article-param' },
+                                '\u0413\u043E\u0440\u043E\u0434:'
+                            ),
+                            ' ',
+                            user_data.city
+                        );
+                    }
+                })()
             )
         );
     }
@@ -15369,6 +15422,138 @@ class UserHeader extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 
 /***/ }),
 /* 119 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
+
+
+class UserInfo extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
+    render() {
+        let user_data = this.props.user_data.counters;
+
+        return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+            "div",
+            { className: "user-container user-stat row" },
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                "div",
+                { className: "col-3 " },
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                    "div",
+                    { className: "user-stat-digits" },
+                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                        "span",
+                        { className: "user-stat-num" },
+                        user_data.friends
+                    ),
+                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("br", null),
+                    "\u0434\u0440\u0443\u0437\u0435\u0439"
+                )
+            ),
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                "div",
+                { className: "col-3" },
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                    "div",
+                    { className: "user-stat-digits" },
+                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                        "span",
+                        { className: "user-stat-num" },
+                        user_data.followers
+                    ),
+                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("br", null),
+                    "\u043F\u043E\u0434\u043F\u0438\u0441\u0447\u0438\u043A\u043E\u0432"
+                )
+            ),
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                "div",
+                { className: "col-3" },
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                    "div",
+                    { className: "user-stat-digits" },
+                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                        "span",
+                        { className: "user-stat-num" },
+                        user_data.groups
+                    ),
+                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("br", null),
+                    "\u0433\u0440\u0443\u043F\u043F"
+                )
+            ),
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                "div",
+                { className: "col-3" },
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                    "div",
+                    { className: "user-stat-digits user-stat-digist-hide" },
+                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                        "span",
+                        { className: "user-stat-num" },
+                        user_data.gifts
+                    ),
+                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("br", null),
+                    "\u043F\u043E\u0434\u0430\u0440\u043A\u043E\u0432"
+                )
+            )
+        );
+    }
+}
+
+/* harmony default export */ __webpack_exports__["a"] = (UserInfo);
+
+/***/ }),
+/* 120 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react_redux__ = __webpack_require__(6);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_redux__ = __webpack_require__(7);
+
+
+
+
+class UserWall extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
+    render() {
+        let wall = this.props.user_data.wall;
+
+        return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+            'div',
+            { className: 'col-12 user-wall' },
+            (() => {
+                console.log(wall);
+                let wallArray = [];
+                // Прогоняем весь массив со стеной 
+                for (let i = 0; i <= wall[0]; i++) {
+                    wallArray.push(__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                        'div',
+                        { className: 'user-container' },
+                        wall[i].text
+                    ));
+                }
+
+                return wallArray;
+            })()
+        );
+    }
+}
+
+const mapStateToProps = state => {
+    return state;
+};
+
+const matchDispatchToProps = dispatch => {
+    return {
+        // vkGetUserInfo: bindActionCreators(vkGetUserInfo, dispatch), 
+    };
+};
+
+/* harmony default export */ __webpack_exports__["a"] = (Object(__WEBPACK_IMPORTED_MODULE_1_react_redux__["b" /* connect */])(mapStateToProps, matchDispatchToProps)(UserWall));
+
+/***/ }),
+/* 121 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -15389,7 +15574,7 @@ class Preloader extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 /* harmony default export */ __webpack_exports__["a"] = (Preloader);
 
 /***/ }),
-/* 120 */
+/* 122 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -15418,12 +15603,12 @@ thunk.withExtraArgument = createThunkMiddleware;
 exports['default'] = thunk;
 
 /***/ }),
-/* 121 */
+/* 123 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_redux__ = __webpack_require__(7);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Reducers_vkReducer__ = __webpack_require__(122);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Reducers_vkReducer__ = __webpack_require__(124);
 
 
 
@@ -15432,7 +15617,7 @@ exports['default'] = thunk;
 }));
 
 /***/ }),
-/* 122 */
+/* 124 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
