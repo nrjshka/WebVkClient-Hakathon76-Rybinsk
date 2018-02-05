@@ -6,6 +6,8 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 
 import Index from './Index/index.js';
+import Footer from './Footer/index.js';
+import Self from './Self/index.js';
 
 class App extends Component {
 	render(){
@@ -25,7 +27,16 @@ class App extends Component {
 		} else {
 			// Если мы залогинились
 			return(
-				<div>Вы залогинились.</div>
+				<div className="main">
+					<div className="content container row">
+						<BrowserRouter>
+							<Switch>
+								<Route exact path="/" component={Self} />
+							</Switch>
+						</BrowserRouter>
+					</div>
+					<Footer />
+				</div>
 			);
 		}
 	}
