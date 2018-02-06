@@ -10,12 +10,12 @@ class Footer extends Component {
                     <Link to="" className="col-3">
                         <img src="static/media/icons/home.png" />
                     </Link>
-                    <div className="col-3">
+                    <Link to="/friends" className="col-3">
                         <img src="static/media/icons/friends.png" />
-                    </div>
-                    <div className="col-3">
+                    </Link>
+                    <Link to="/groups" className="col-3">
                         <img src="static/media/icons/groups.png" />
-                    </div>
+                    </Link>
                     <Link to="/settings" className="col-3">
                         <img src="static/media/icons/settings.png" />
                     </Link>

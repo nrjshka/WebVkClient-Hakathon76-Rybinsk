@@ -15,6 +15,9 @@
 /* Settings */
 @import url('settings.css');
 
+/* Groups */
+@import url('groups.css');
+
 html, body, #root {
     width: 100%;
     height: 100%;
@@ -38,6 +41,13 @@ html, body, #root {
     z-index: 5;
     width: 100%;
     height: 95%;
+    -ms-overflow-style: none;  
+    overflow: -moz-scrollbars-none;  
+}
+
+.content::-webkit-scrollbar {
+    width: 0px; 
+    background: transparent;  
 }
 
 .post-container {
@@ -45,9 +55,25 @@ html, body, #root {
     padding: 10px 10px;
 }
 
+
 .post-date {
     color: #939393;
     margin-bottom: 10px;
+}
+
+.post-media {
+    align-content: center;
+}
+
+.post-video {
+    display: inline-block;
+    height: 100%;
+    width: 100%;
+    text-align: center;
+}
+
+.post-img {
+    text-align: center;
 }
 
 .preloader {

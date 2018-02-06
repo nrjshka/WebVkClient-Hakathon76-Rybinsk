@@ -9,6 +9,7 @@ import Index from './Index/index.js';
 import Footer from './Footer/index.js';
 import Self from './Self/index.js';
 import Settings from './Settings/index.js';
+import Groups from './Groups/index.js';
 
 class App extends Component {
 	render(){
@@ -34,6 +35,7 @@ class App extends Component {
 						<Switch>
 							<Route exact path="/" component={Self} />
 							<Route exact path="/settings" component={Settings} />
+							<Route exact path="/groups" component={Groups} />
 						</Switch>
 					</div>
 				<Footer />

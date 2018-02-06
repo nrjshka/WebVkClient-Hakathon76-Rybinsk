@@ -14,8 +14,8 @@ class UserWall extends Component {
                     (() => {
                         console.log(wall);
                         let wallArray = [];
-                        // Прогоняем весь массив со стеной 
-                        for(let i = 1; i <= wall[0]; i++){
+                        // Прогоняем весь массив со стеной
+                        for(let i = 1; i < Math.min(100, wall[0]); i++){
                             wallArray.push(
                                 <PostViewer data={wall[i]} key={i.toString()}/>
                             );
