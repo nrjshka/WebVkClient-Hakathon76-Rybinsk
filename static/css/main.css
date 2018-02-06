@@ -15,8 +15,12 @@
 /* Settings */
 @import url('settings.css');
 
+/* Friends */
+@import url('friends.css');
+
 /* Groups */
 @import url('groups.css');
+
 
 html, body, #root {
     width: 100%;
@@ -74,6 +78,31 @@ html, body, #root {
 
 .post-img {
     text-align: center;
+}
+
+.post-box{
+    margin-top: 10px;
+}
+
+.post-box-area{
+    resize: none;
+    width: 99.4%;
+    height: 100%;
+}
+
+.post-send {
+    height: 30px;
+    color: #fff;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    text-align: center;
+    margin-right: 10px;
+    margin-left: 10px;
+    width: 100px;
+    background-color: #5181b8;
+    border-style: solid;
+    border-width: 0;
+    border-radius: 1px;
 }
 
 .preloader {

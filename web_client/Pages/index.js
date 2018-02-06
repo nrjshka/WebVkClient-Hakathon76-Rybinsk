@@ -10,6 +10,9 @@ import Footer from './Footer/index.js';
 import Self from './Self/index.js';
 import Settings from './Settings/index.js';
 import Groups from './Groups/index.js';
+import Group from './Group/index.js';
+import FriendsList from './FriendsList/index.js';
+import UserPage from './UserPage/index.js';
 
 class App extends Component {
 	render(){
@@ -36,6 +39,9 @@ class App extends Component {
 							<Route exact path="/" component={Self} />
 							<Route exact path="/settings" component={Settings} />
 							<Route exact path="/groups" component={Groups} />
+							<Route path="/group:group_id" component={Group} />
+							<Route exact path="/friends" component={FriendsList} />
+							<Route path="/id:user_id" component={UserPage} />
 						</Switch>
 					</div>
 				<Footer />

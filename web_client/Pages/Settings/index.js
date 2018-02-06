@@ -11,7 +11,7 @@ class Settings extends Component {
      render(){
         return(
             <div className="settings-body">
-                <input type="button" value="Выйти из VK Messanger" className="settings-btn-exit" onClick={this.exitApp} />
+                <input type="button" value="Выйти из VkQuickAnalyzer" className="settings-btn-exit" onClick={this.exitApp} />
             </div>
         );
      }

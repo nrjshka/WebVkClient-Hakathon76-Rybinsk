@@ -20,6 +20,7 @@ class Self extends Component {
             fetched : false,
             vkdata : vkdata,
             user_info : null,
+            input_text : "",
         };
         
         // Вызываем загрузку данных
@@ -32,17 +33,36 @@ class Self extends Component {
             this.setState({
                 fetched : true,
                 vkdata : this.state.vkdata,
-                user_info : newProps.vk.user_info
+                user_info : newProps.vk.user_info,
+                input_text : "",
             });
         }
     }
-    
+
     render(){
         if (this.state.fetched) {
             return(
                 <div className="self-main">
                     <UserHeader user_data={this.state.user_info} />
-                    <UserInfo user_data={this.state.user_info} />
+                    <UserInfo user_data={this.state.user_info} self={true}/>
+                    <div className="user-container post-box" >
+                        <textarea className="post-box-area" type="text" placeholder="Введите текст поста"
+                            onChanhe={
+                                (evt) => {
+                                    this.setState({
+                                        fetched : true,
+                                        vkdata : this.state.vkdata,
+                                        user_info : newProps.vk.user_info,
+                                        input_text : evt.target.value,
+                                    })
+                                }
+                            }>
+                        </textarea>
+                        <input className="post-send" value="Отправить" type="button" 
+                            onClick={(evt) => {
+                                // Тут отправляем запрос на создание поста  
+                            }}/>
+                    </div>
                     <UserWall user_data={this.state.user_info} />
                 </div>
             );

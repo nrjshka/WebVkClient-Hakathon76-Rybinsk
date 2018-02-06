@@ -1,4 +1,4 @@
-import {VK_LOGIN, VK_USER_INFO, VK_GROUP_INFO} from "../Const"
+import {VK_LOGIN, VK_USER_INFO, VK_GROUP_INFO, VK_GROUP_DATA, VK_FRIENDS_GET} from "../Const"
 
 export const vkLogin = () => {
     // Логин с помошью VK
@@ -31,10 +31,12 @@ export const vkGetUserInfo = (id) => {
         let outputData = {};
         VK.Api.call(
             'users.get', 
-            {user_ids : id,
-             fields : 'photo_max, first_name, last_name, bdate, city, counters'
+            {
+                user_ids : id,
+                fields : 'photo_max, first_name, last_name, bdate, city, counters',
             }, 
             (data) => {
+                console.log(data);
                 Object.assign(outputData, data['response'][0]);
                 // Запрашиваем город человека
                 VK.Api.call('database.getCitiesById',
@@ -80,10 +82,64 @@ export const vkGetGroupList = (id) => {
                 fields : "id, name, photo_200"
             }, 
             (data) => {
+                console.log(data);
                 dispatch({
                     type: VK_GROUP_INFO,
                     payload: {group_info : data.response},
                 })
             })
+    }
+}
+
+export const vkGetGroupInfo = (id) => {
+    // Отправляет информацию о группе
+    return (dispatch) => {
+        let outputData = {};
+
+        VK.Api.call(
+            'groups.getById',
+            {
+                group_id : id,
+                fields: "description, counters, type",
+            },
+            (data) => {
+                Object.assign(outputData, data);
+                VK.Api.call(
+                    'wall.get',
+                    {
+                        owner_id : -id,
+                        count : 100,
+                    },
+                    (data) => {
+                        outputData.wall = data.response;
+                        console.log('outputData', outputData);
+                        dispatch({
+                            type : VK_GROUP_DATA,
+                            payload : {group_data : outputData},
+                        });
+                    }
+                )
+            })
+    }
+}
+
+export const vkGetFriendsList = (id) => {
+    // Возвращает список друзей
+    return (dispatch) => {
+        VK.Api.call(
+            'friends.get',
+            {
+                user_id : id,
+                order : "hints",
+                count : 300,
+                fields : "nickname, photo_200_orig" 
+            },
+            (data) => {
+                dispatch({
+                    type: VK_FRIENDS_GET,
+                    payload: {friends_data : data.response},
+                })
+            }
+        )
     }
 }
