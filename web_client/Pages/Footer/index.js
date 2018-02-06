@@ -16,9 +16,9 @@ class Footer extends Component {
                     <div className="col-3">
                         <img src="static/media/icons/groups.png" />
                     </div>
-                    <div className="col-3">
+                    <Link to="/settings" className="col-3">
                         <img src="static/media/icons/settings.png" />
-                    </div>
+                    </Link>
                 </div>
             </footer>
 		);

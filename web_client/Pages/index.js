@@ -8,6 +8,7 @@ import {bindActionCreators} from 'redux';
 import Index from './Index/index.js';
 import Footer from './Footer/index.js';
 import Self from './Self/index.js';
+import Settings from './Settings/index.js';
 
 class App extends Component {
 	render(){
@@ -32,6 +33,7 @@ class App extends Component {
 					<div className="content container row">
 						<Switch>
 							<Route exact path="/" component={Self} />
+							<Route exact path="/settings" component={Settings} />
 						</Switch>
 					</div>
 				<Footer />
