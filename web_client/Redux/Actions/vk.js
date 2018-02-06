@@ -1,4 +1,4 @@
-import {VK_LOGIN, VK_USER_INFO} from "../Const"
+import {VK_LOGIN, VK_USER_INFO, VK_GROUP_INFO} from "../Const"
 
 export const vkLogin = () => {
     // Логин с помошью VK
@@ -26,6 +26,7 @@ export const vkLogin = () => {
 }
 
 export const vkGetUserInfo = (id) => {
+    // Отправляет информацию о человеке
     return (dispatch) => {
         let outputData = {};
         VK.Api.call(
@@ -62,6 +63,27 @@ export const vkGetUserInfo = (id) => {
 
                   }
                 )
+            })
+    }
+}
+
+export const vkGetGroupList = (id) => {
+    // Отправляет список групп
+    return (dispatch) => {
+        let outputdata = {};
+
+        VK.Api.call('groups.get',
+            {
+                user_id : id,
+                extended: 1,
+                count : 200,
+                fields : "id, name, photo_200"
+            }, 
+            (data) => {
+                dispatch({
+                    type: VK_GROUP_INFO,
+                    payload: {group_info : data.response},
+                })
             })
     }
 }
