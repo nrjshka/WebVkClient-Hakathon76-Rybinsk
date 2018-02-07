@@ -11,7 +11,7 @@ class Index extends Component {
 				<form className="index-form col-xs-12 row">
 					<div className="col-12">
 						<img className="index-logo" src="static/media/logo/index.png"/>
-						<div className="index-title">VkQuickAnalyzer</div>
+						<div className="index-title">VkQuick</div>
 						<input className="index-input" type="button" onClick={ () => { this.props.vkLogin() } } value="Зайти с помощью VK" />
 					</div>
 				</form>

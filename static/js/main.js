@@ -15674,7 +15674,7 @@ class Index extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 					__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
 						'div',
 						{ className: 'index-title' },
-						'VkQuickAnalyzer'
+						'VkQuick'
 					),
 					__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('input', { className: 'index-input', type: 'button', onClick: () => {
 							this.props.vkLogin();
@@ -16011,7 +16011,7 @@ class Settings extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
         return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
             'div',
             { className: 'settings-body' },
-            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('input', { type: 'button', value: '\u0412\u044B\u0439\u0442\u0438 \u0438\u0437 VkQuickAnalyzer', className: 'settings-btn-exit', onClick: this.exitApp })
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('input', { type: 'button', value: '\u0412\u044B\u0439\u0442\u0438 \u0438\u0437 VkQuick', className: 'settings-btn-exit', onClick: this.exitApp })
         );
     }
 }
