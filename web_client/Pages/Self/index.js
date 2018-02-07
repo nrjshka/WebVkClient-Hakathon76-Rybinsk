@@ -7,7 +7,7 @@ import UserInfo from '../UserInfo/index.js';
 import UserWall from '../UserWall/index.js';
 import Preloader from '../Preloader/index.js';
 
-import {vkGetUserInfo} from '../../Redux/Actions/vk';
+import {vkGetUserInfo, vkPostData} from '../../Redux/Actions/vk';
 
 class Self extends Component {
     constructor(props){
@@ -28,7 +28,6 @@ class Self extends Component {
     }	
 
     componentWillReceiveProps(newProps){
-        console.log(newProps);
         if (newProps.vk.user_info){
             this.setState({
                 fetched : true,
@@ -46,13 +45,13 @@ class Self extends Component {
                     <UserHeader user_data={this.state.user_info} />
                     <UserInfo user_data={this.state.user_info} self={true}/>
                     <div className="user-container post-box" >
-                        <textarea className="post-box-area" type="text" placeholder="Введите текст поста"
-                            onChanhe={
+                        <textarea className="post-box-area" type="text" placeholder="Введите текст поста" value={this.state.input_text}
+                            onChange={
                                 (evt) => {
                                     this.setState({
                                         fetched : true,
                                         vkdata : this.state.vkdata,
-                                        user_info : newProps.vk.user_info,
+                                        user_info : this.state.user_info,
                                         input_text : evt.target.value,
                                     })
                                 }
@@ -61,6 +60,7 @@ class Self extends Component {
                         <input className="post-send" value="Отправить" type="button" 
                             onClick={(evt) => {
                                 // Тут отправляем запрос на создание поста  
+                                this.props.vkPostData(this.state.vkdata.session.user.id, this.state.input_text);
                             }}/>
                     </div>
                     <UserWall user_data={this.state.user_info} />
@@ -80,7 +80,8 @@ const mapStateToProps = (state) => {
 
 const matchDispatchToProps = (dispatch) => {
 	return {
-		vkGetUserInfo: bindActionCreators(vkGetUserInfo, dispatch), 
+        vkGetUserInfo: bindActionCreators(vkGetUserInfo, dispatch), 
+        vkPostData : bindActionCreators(vkPostData, dispatch),
 	};
 }
 

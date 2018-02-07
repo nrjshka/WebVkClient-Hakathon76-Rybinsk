@@ -37,6 +37,7 @@ class PostViewer extends Component {
                     case "video":
                             mediaArray.push(
                                 <div className="post-media" key={i.toString()}>
+                                    Видео: 
                                     <a className="post-video" href={'https://vk.com/video?z=video' 
                                             + wall.attachments[i].video.owner_id + '_' + wall.attachments[i].video.vid}>
                                         <img src={wall.attachments[i].video.image} key={i.toString()} />

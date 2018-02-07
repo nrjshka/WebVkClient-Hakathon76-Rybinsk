@@ -1,4 +1,4 @@
-import {VK_LOGIN, VK_USER_INFO, VK_GROUP_INFO, VK_GROUP_DATA, VK_FRIENDS_GET} from "../Const"
+import {VK_LOGIN, VK_USER_INFO, VK_GROUP_INFO, VK_GROUP_DATA, VK_FRIENDS_GET, VK_POST_DATA} from "../Const"
 
 export const vkLogin = () => {
     // Логин с помошью VK
@@ -21,7 +21,7 @@ export const vkLogin = () => {
                 // Если он отклонил.
                 // Желательно кинуть ему напоминалку 
             }
-        }, 6037534)
+        }, 6037535)
     }
 }
 
@@ -141,5 +141,58 @@ export const vkGetFriendsList = (id) => {
                 })
             }
         )
+    }
+}
+
+export const vkPostData = (id, text) => {
+    return (dispatch) => {
+        VK.Api.call(
+            'wall.post',
+            {
+                owner_id : id,
+                message : text
+            },
+            (data) => {
+                if (data.response.post_id){
+                    // Теперь обновляем ленту
+                    let outputData = {};
+                    VK.Api.call(
+                        'users.get', 
+                        {
+                            user_ids : id,
+                            fields : 'photo_max, first_name, last_name, bdate, city, counters',
+                        }, 
+                        (data) => {
+                            Object.assign(outputData, data['response'][0]);
+                            // Запрашиваем город человека
+                            VK.Api.call('database.getCitiesById',
+                            {city_ids: outputData['city']},
+                            (data ) => {
+                                    if (data.response.length)
+                                        outputData.city = data.response[0].name;
+                                    else 
+                                        outputData.city = null;
+                                    
+                                    // Запрашиваем стену человека
+                                    VK.Api.call('wall.get',
+                                        {
+                                            owner_id: id,
+                                            count: 100
+                                        },
+                                        (data) => {
+                                            outputData.wall = data.response;
+                                            console.log('outputdata', outputData);
+
+                                            dispatch({
+                                                type: VK_USER_INFO,
+                                                payload : {user_info : outputData}, 
+                                            });
+                                        });
+
+                            }
+                            )
+                        })
+                }
+            })
     }
 }

@@ -536,7 +536,7 @@ const vkLogin = () => {
                 // Если он отклонил.
                 // Желательно кинуть ему напоминалку 
             }
-        }, 6037534);
+        }, 6037535);
     };
 };
 /* harmony export (immutable) */ __webpack_exports__["e"] = vkLogin;
@@ -642,6 +642,46 @@ const vkGetFriendsList = id => {
     };
 };
 /* harmony export (immutable) */ __webpack_exports__["a"] = vkGetFriendsList;
+
+
+const vkPostData = (id, text) => {
+    return dispatch => {
+        VK.Api.call('wall.post', {
+            owner_id: id,
+            message: text
+        }, data => {
+            if (data.response.post_id) {
+                // Теперь обновляем ленту
+                let outputData = {};
+                VK.Api.call('users.get', {
+                    user_ids: id,
+                    fields: 'photo_max, first_name, last_name, bdate, city, counters'
+                }, data => {
+                    Object.assign(outputData, data['response'][0]);
+                    // Запрашиваем город человека
+                    VK.Api.call('database.getCitiesById', { city_ids: outputData['city'] }, data => {
+                        if (data.response.length) outputData.city = data.response[0].name;else outputData.city = null;
+
+                        // Запрашиваем стену человека
+                        VK.Api.call('wall.get', {
+                            owner_id: id,
+                            count: 100
+                        }, data => {
+                            outputData.wall = data.response;
+                            console.log('outputdata', outputData);
+
+                            dispatch({
+                                type: __WEBPACK_IMPORTED_MODULE_0__Const__["e" /* VK_USER_INFO */],
+                                payload: { user_info: outputData }
+                            });
+                        });
+                    });
+                });
+            }
+        });
+    };
+};
+/* harmony export (immutable) */ __webpack_exports__["f"] = vkPostData;
 
 
 /***/ }),
@@ -4611,6 +4651,7 @@ class PostViewer extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
                         mediaArray.push(__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                             'div',
                             { className: 'post-media', key: i.toString() },
+                            '\u0412\u0438\u0434\u0435\u043E:',
                             __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                                 'a',
                                 { className: 'post-video', href: 'https://vk.com/video?z=video' + wall.attachments[i].video.owner_id + '_' + wall.attachments[i].video.vid },
@@ -15752,7 +15793,6 @@ class Self extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
     }
 
     componentWillReceiveProps(newProps) {
-        console.log(newProps);
         if (newProps.vk.user_info) {
             this.setState({
                 fetched: true,
@@ -15773,18 +15813,19 @@ class Self extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
                 __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                     'div',
                     { className: 'user-container post-box' },
-                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('textarea', { className: 'post-box-area', type: 'text', placeholder: '\u0412\u0432\u0435\u0434\u0438\u0442\u0435 \u0442\u0435\u043A\u0441\u0442 \u043F\u043E\u0441\u0442\u0430',
-                        onChanhe: evt => {
+                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('textarea', { className: 'post-box-area', type: 'text', placeholder: '\u0412\u0432\u0435\u0434\u0438\u0442\u0435 \u0442\u0435\u043A\u0441\u0442 \u043F\u043E\u0441\u0442\u0430', value: this.state.input_text,
+                        onChange: evt => {
                             this.setState({
                                 fetched: true,
                                 vkdata: this.state.vkdata,
-                                user_info: newProps.vk.user_info,
+                                user_info: this.state.user_info,
                                 input_text: evt.target.value
                             });
                         } }),
                     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('input', { className: 'post-send', value: '\u041E\u0442\u043F\u0440\u0430\u0432\u0438\u0442\u044C', type: 'button',
                         onClick: evt => {
                             // Тут отправляем запрос на создание поста  
+                            this.props.vkPostData(this.state.vkdata.session.user.id, this.state.input_text);
                         } })
                 ),
                 __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_5__UserWall_index_js__["a" /* default */], { user_data: this.state.user_info })
@@ -15801,7 +15842,8 @@ const mapStateToProps = state => {
 
 const matchDispatchToProps = dispatch => {
     return {
-        vkGetUserInfo: Object(__WEBPACK_IMPORTED_MODULE_2_redux__["b" /* bindActionCreators */])(__WEBPACK_IMPORTED_MODULE_7__Redux_Actions_vk__["d" /* vkGetUserInfo */], dispatch)
+        vkGetUserInfo: Object(__WEBPACK_IMPORTED_MODULE_2_redux__["b" /* bindActionCreators */])(__WEBPACK_IMPORTED_MODULE_7__Redux_Actions_vk__["d" /* vkGetUserInfo */], dispatch),
+        vkPostData: Object(__WEBPACK_IMPORTED_MODULE_2_redux__["b" /* bindActionCreators */])(__WEBPACK_IMPORTED_MODULE_7__Redux_Actions_vk__["f" /* vkPostData */], dispatch)
     };
 };
 
